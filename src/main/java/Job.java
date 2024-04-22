@@ -68,28 +68,15 @@ public class Job {
 
     private Random random = new Random();
 
-
-//For jobs with assigned priority
-  public Job(int priority){
-        this.arrival =  random.nextInt(250) + 1;
-        this.cpuBurst = random.nextInt(14) + 2;
-        this.priority = priority;
-        this.remainingTime = this.cpuBurst;
-  }
-
     public Job(){
         this.arrival = random.nextInt(250) + 1;;
         this.cpuBurst = random.nextInt(14) + 2;
         this.remainingTime = this.cpuBurst;
+        this.priority = random.nextInt(5) + 1;
     }
 
     @Override
     public String toString() {
-      if (priority == 0) {
-          return "JOB Arrival: " + String.valueOf(arrival) + ", CPU burst: " + String.valueOf(cpuBurst) + ", Turn around Time:" + String.valueOf(turnAroundTime) + ", Exit Time: " + String.valueOf(exitTime) + ", remaining time: " + String.valueOf(remainingTime)+ "\n\n" ;
-      }
-      else{
-          return "JOB Arrival: " + String.valueOf(arrival) + " CPU burst: " + String.valueOf(cpuBurst) + " Priority: " + String.valueOf(priority)+ "\n";
-      }
+        return "JOB Arrival: " + String.valueOf(arrival) + ", CPU burst: " + String.valueOf(cpuBurst) + ", Turn around Time:" + String.valueOf(turnAroundTime) + ", Exit Time: " + String.valueOf(exitTime) + ", remaining time: " + String.valueOf(remainingTime)+ ", Priority: " + String.valueOf(priority) + "\n\n" ;
     }
 }
