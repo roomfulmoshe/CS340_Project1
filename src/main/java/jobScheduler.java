@@ -1,9 +1,9 @@
 import java.util.*;
 
-public class jobAlgorithm {
+public class jobScheduler {
     private List<Job> jobs = new ArrayList<>();
 
-    public jobAlgorithm(List<Job> jobs) {
+    public jobScheduler(List<Job> jobs) {
         //List of 25 'simulated' jobs
         this.jobs = jobs;
     }
@@ -91,4 +91,32 @@ public class jobAlgorithm {
     ///////////////////////////////////////////////////////////////////////////////////////////////
     //                                      SRT                                                 //
     ///////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    //                                      MAIN                                                 //
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    public static void main(String[] args) {
+        List<Job> jobs = new ArrayList<>();
+
+        // Instantiating 20 Job objects
+        for (int i = 0; i < 25; i++) {
+            Job job = new Job();
+            jobs.add(job);
+        }
+        jobScheduler scheduler = new jobScheduler(jobs);
+//        System.out.println(jobsRunner.Fifo());
+        System.out.println(scheduler.SJF());
+    }
+
+
+
+
 }
