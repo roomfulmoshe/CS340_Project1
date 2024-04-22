@@ -92,6 +92,47 @@ public class jobScheduler {
     //                                      SRT                                                 //
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
+    public List<Job> SRT() {
+        PriorityQueue<Job> jobQueue = null;
+        List<Job> completedJobs = new ArrayList<>();
+        //counts how many jobs are done
+        int counter = 0;
+        int currentTime = 0;
+        Job currentJob = null;
+
+        Set<Job> completed = new HashSet<>();
+        Comparator<Job> jobComparator = Comparator.comparingInt(Job::getRemainingTime)
+                .thenComparingInt(Job::getArrival);
+
+        //while there are still jobs to handle
+        while(counter < jobs.size()){
+            jobQueue = new PriorityQueue<>(jobComparator);
+            for(Job job: jobs){
+                //if job is ready to run and it hasn't completed add it to priority queue
+                if (job.getArrival() <= currentTime && !completed.contains(job) && job.getRemainingTime() !=0){
+                    jobQueue.offer(job);
+                }
+            }
+            System.out.println(jobQueue + " Current Time: " + String.valueOf(currentTime));
+            if (!jobQueue.isEmpty()){
+                currentJob = jobQueue.poll();
+                currentJob.setRemainingTime(currentJob.getRemainingTime() - 1);
+                currentTime++;
+                if(currentJob.getRemainingTime() == 0){
+                    completed.add(currentJob);
+                    currentJob.setExitTime(currentTime);
+                    currentJob.setTurnAroundTime(currentTime - currentJob.getArrival());
+                    completedJobs.add(currentJob);
+                    counter++;
+                }
+            }
+            else{
+                currentTime++;
+            }
+        }
+
+        return completedJobs;
+    }
 
 
 
@@ -113,10 +154,6 @@ public class jobScheduler {
         }
         jobScheduler scheduler = new jobScheduler(jobs);
 //        System.out.println(jobsRunner.Fifo());
-        System.out.println(scheduler.SJF());
+        System.out.println(scheduler.SRT());
     }
-
-
-
-
 }
