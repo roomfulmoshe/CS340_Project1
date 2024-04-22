@@ -86,7 +86,7 @@ public class Job {
     @Override
     public String toString() {
       if (priority == 0) {
-          return "JOB Arrival: " + String.valueOf(arrival) + " CPU burst: " + String.valueOf(cpuBurst) + " Turn around Time:" + String.valueOf(turnAroundTime) + "\n" ;
+          return "JOB Arrival: " + String.valueOf(arrival) + ", CPU burst: " + String.valueOf(cpuBurst) + ", Turn around Time:" + String.valueOf(turnAroundTime) + ", Exit Time: " + String.valueOf(exitTime) + "\n\n" ;
       }
       else{
           return "JOB Arrival: " + String.valueOf(arrival) + " CPU burst: " + String.valueOf(cpuBurst) + " Priority: " + String.valueOf(priority)+ "\n";

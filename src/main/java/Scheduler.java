@@ -10,9 +10,8 @@ public class Scheduler {
             Job job = new Job();
             jobs.add(job);
         }
-
         jobAlgorithm jobsRunner = new jobAlgorithm(jobs);
-        System.out.println(jobsRunner.Fifo());
-
+//        System.out.println(jobsRunner.Fifo());
+        System.out.println(jobsRunner.SJF());
     }
 }
