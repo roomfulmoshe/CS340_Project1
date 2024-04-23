@@ -9,7 +9,7 @@ public class jobScheduler {
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
-    //                                      FIFO                                                  //
+    //                                      FIFO                                                 //
     ///////////////////////////////////////////////////////////////////////////////////////////////
     public List<Job> Fifo(){
         System.out.println("Hello from Fifo");
@@ -31,6 +31,7 @@ public class jobScheduler {
             }
             //check if the current job arrived and then runs the job
             if(currentJob.getArrival() <= currentTime){
+//                System.out.print(String.valueOf(currentJob.jobID) + "****...****");
                 currentTime += currentJob.getCpuBurst();
                 currentJob.setTurnAroundTime(currentTime - currentJob.getArrival());
                 currentJob.setExitTime(currentTime);
@@ -93,6 +94,10 @@ public class jobScheduler {
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
     public List<Job> SRT() {
+        //initially set all remaining times to it's initial CPU burst
+        for(Job job: jobs){
+            job.setRemainingTime(job.getCpuBurst());
+        }
         PriorityQueue<Job> jobQueue = null;
         List<Job> completedJobs = new ArrayList<>();
         //counts how many jobs are done
@@ -189,7 +194,7 @@ public class jobScheduler {
     ///////////////////////////////////////////////////////////////////////////////////////////////
     //                                      ROUND ROBIN                                           //
     ///////////////////////////////////////////////////////////////////////////////////////////////
-    //Parameter CS (Context Switch) set to 0 if there's no context switch (ASSUMING Time Quantam is one time unit)
+    //Parameter CS (Context Switch) set to 0 if there's no context switch
     public List<Job> RR(int CS, int quantam) {
         //initially set all remaining times to it's initial CPU burst
         for(Job job: jobs){
@@ -217,16 +222,18 @@ public class jobScheduler {
                     inQ.add(job);
                 }
             }
-            System.out.println(queue +", Current Time: " +  String.valueOf(currentTime));
             if (!queue.isEmpty()){
                 currentJob = queue.poll();
                 if(currentJob.getRemainingTime() < quantam){
                     currentTime += currentJob.getRemainingTime();
                     currentJob.setRemainingTime(0);
+                    //context switch
+                    currentTime += CS;
                 }
                 else {
                     currentJob.setRemainingTime(currentJob.getRemainingTime() - quantam);
                     currentTime+= quantam;
+                    currentTime+=CS;
                 }
                 if(currentJob.getRemainingTime() == 0){
                     completed.add(currentJob);
@@ -257,13 +264,14 @@ public class jobScheduler {
     public static void main(String[] args) {
         List<Job> jobs = new ArrayList<>();
 
-        // Instantiating 20 Job objects
+        // Instantiating 25 Job objects
         for (int i = 0; i < 25; i++) {
             Job job = new Job();
             jobs.add(job);
         }
         jobScheduler scheduler = new jobScheduler(jobs);
-//        System.out.println(jobsRunner.Fifo());
-        System.out.println(scheduler.RR(0, 2));
+        System.out.println(scheduler.Fifo());
+
+//        System.out.println(scheduler.RR(1, 2));
     }
 }
