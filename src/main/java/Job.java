@@ -83,6 +83,6 @@ public class Job {
 
     @Override
     public String toString() {
-        return "Job ID:"+ String.valueOf(jobID)+ ", JOB Arrival: " + String.valueOf(arrival) + ", CPU burst: " + String.valueOf(cpuBurst) + ", Turn around Time:" + String.valueOf(turnAroundTime) + ", Exit Time: " + String.valueOf(exitTime) + ", remaining time: " + String.valueOf(remainingTime)+ ", Priority: " + String.valueOf(priority) + "\n\n" ;
+        return "Job ID:"+ String.valueOf(jobID)+ ", JOB Arrival: " + String.valueOf(arrival) + ", CPU burst: " + String.valueOf(cpuBurst) + ", Turn around Time:" + String.valueOf(turnAroundTime) + ", Exit Time: " + String.valueOf(exitTime) + ", Priority: " + String.valueOf(priority) + "\n\n" ;
     }
 }
