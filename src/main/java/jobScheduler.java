@@ -136,7 +136,7 @@ public class jobScheduler {
 
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
-    //                                      Highest Priority                                                  //
+    //                                      Highest Priority                                     //
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
     public List<Job> HighestPriority() {
@@ -186,10 +186,68 @@ public class jobScheduler {
         return completedJobs;
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    //                                      ROUND ROBIN                                           //
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    //Parameter CS (Context Switch) set to 0 if there's no context switch (ASSUMING Time Quantam is one time unit)
+    public List<Job> RR(int CS, int quantam) {
+        //initially set all remaining times to it's initial CPU burst
+        for(Job job: jobs){
+            job.setRemainingTime(job.getCpuBurst());
+        }
 
+        // Create a Queue using LinkedList
+        Queue<Job> queue = new LinkedList<>();
 
+        List<Job> completedJobs = new ArrayList<>();
+        //counts how many jobs are done
+        int counter = 0;
+        int currentTime = 0;
+        Job currentJob = null;
 
+        Set<Job> completed = new HashSet<>();
+        Set<Job> inQ = new HashSet<>();
 
+        //while there are still jobs to handle
+        while(counter < jobs.size()){
+            for(Job job: jobs){
+                //if job is ready to run and it hasn't completed and it's not in the Queue currently
+                if (job.getArrival() <= currentTime && !completed.contains(job) && !inQ.contains(job) ){
+                    queue.offer(job);
+                    inQ.add(job);
+                }
+            }
+            System.out.println(queue +", Current Time: " +  String.valueOf(currentTime));
+            if (!queue.isEmpty()){
+                currentJob = queue.poll();
+                if(currentJob.getRemainingTime() < quantam){
+                    currentTime += currentJob.getRemainingTime();
+                    currentJob.setRemainingTime(0);
+                }
+                else {
+                    currentJob.setRemainingTime(currentJob.getRemainingTime() - quantam);
+                    currentTime+= quantam;
+                }
+                if(currentJob.getRemainingTime() == 0){
+                    completed.add(currentJob);
+                    inQ.remove(currentJob);
+                    currentJob.setExitTime(currentTime);
+                    currentJob.setTurnAroundTime(currentTime - currentJob.getArrival());
+                    completedJobs.add(currentJob);
+                    counter++;
+                }
+                else{
+                    queue.offer(currentJob);
+                }
+            }
+            else{
+                //if there's no jobs in the queue just increase the current time by 1
+                currentTime++;
+            }
+        }
+
+        return completedJobs;
+    }
 
 
 
@@ -206,6 +264,6 @@ public class jobScheduler {
         }
         jobScheduler scheduler = new jobScheduler(jobs);
 //        System.out.println(jobsRunner.Fifo());
-        System.out.println(scheduler.HighestPriority());
+        System.out.println(scheduler.RR(0, 2));
     }
 }
