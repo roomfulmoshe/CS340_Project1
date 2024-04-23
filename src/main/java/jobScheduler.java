@@ -269,7 +269,7 @@ public class jobScheduler {
     ///////////////////////////////////////////////////////////////////////////////////////////////
     //Parameter CS (Context Switch) set to 0 if there's no context switch
     public List<Job> RR(int CS, int quantam) {
-        System.out.println("Running Round Robin.... Gantt Diagram:");
+        System.out.println("Running Round Robin with Context Switch " + CS +" and Quantam " + quantam  + ".... Gantt Diagram:");
         displayBar();
 
         //initially set all remaining times to it's initial CPU burst
