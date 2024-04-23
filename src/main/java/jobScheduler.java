@@ -58,15 +58,17 @@ public class jobScheduler {
             }
         }
         System.out.println();
+        System.out.println("RESULTS:");
         System.out.println("Average Turn Around Time: " + Math.round(  (( (double) ATT / 25 ) *100.0) )/100.0 ) ;
         System.out.println("The throughput at time 100 is: " + throughPut);
+        System.out.println("\nFINAL STATE OF JOBS: ");
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
     //                                      FIFO                                                 //
     ///////////////////////////////////////////////////////////////////////////////////////////////
     public List<Job> Fifo(){
-        System.out.println("Hello From FIFO");
+        System.out.println("Running FIFO.... Gantt Diagram:");
         displayBar();
         //Sort Jobs by arrival times
         Collections.sort(jobs, new Comparator<Job>() {
@@ -109,7 +111,7 @@ public class jobScheduler {
     //                                      SJF                                                  //
     ///////////////////////////////////////////////////////////////////////////////////////////////
     public List<Job> SJF() {
-        System.out.println("Hello From SJF");
+        System.out.println("Running SJF.... Gantt Diagram:");
         displayBar();
         PriorityQueue<Job> jobQueue = null;
         List<Job> completedJobs = new ArrayList<>();
@@ -156,7 +158,7 @@ public class jobScheduler {
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
     public List<Job> SRT() {
-        System.out.println("Hello From SRT");
+        System.out.println("Running SRT.... Gantt Diagram:");
         displayBar();
         //initially set all remaining times to it's initial CPU burst
         for(Job job: jobs){
@@ -211,7 +213,7 @@ public class jobScheduler {
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
     public List<Job> HighestPriority() {
-        System.out.println("Hello From Highest Priority");
+        System.out.println("Running Highest Priority.... Gantt Diagram:");
         displayBar();
         //initially set all remaining times to it's initial CPU burst
         for(Job job: jobs){
@@ -267,7 +269,7 @@ public class jobScheduler {
     ///////////////////////////////////////////////////////////////////////////////////////////////
     //Parameter CS (Context Switch) set to 0 if there's no context switch
     public List<Job> RR(int CS, int quantam) {
-        System.out.println("Hello From Round Robin");
+        System.out.println("Running Round Robin.... Gantt Diagram:");
         displayBar();
 
         //initially set all remaining times to it's initial CPU burst
@@ -347,8 +349,10 @@ public class jobScheduler {
             Job job = new Job();
             jobs.add(job);
         }
+
         jobScheduler scheduler = new jobScheduler(jobs);
 
+        System.out.println("INITIAL STATE OF JOBS: \n" + jobs + "\n");
         System.out.println("-".repeat(600));
         System.out.println(scheduler.Fifo());
         System.out.println("-".repeat(600));
